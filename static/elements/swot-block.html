@@ -1,0 +1,276 @@
+<link rel="import" href="/static/elements/vendor/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/vendor/paper-material/paper-material.html"/>
+<link rel="import" href="/static/elements/vendor/paper-header-panel/paper-header-panel.html"/>
+<link rel="import" href="/static/elements/vendor/paper-toolbar/paper-toolbar.html"/>
+<link rel="import" href="/static/elements/vendor/paper-input/paper-input.html"/>
+<link rel="import" href="/static/elements/vendor/paper-fab/paper-fab.html"/>
+<link rel="import" href="/static/elements/vendor/iron-icons/iron-icons.html"/>
+<link rel="import" href="/static/elements/vendor/iron-icon/iron-icon.html"/>
+<link rel="import" href="/static/elements/vendor/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="/static/elements/vendor/iron-form/iron-form.html"/>
+
+<link rel="import" href="/static/elements/app-ajax.html"/>
+
+
+<dom-module id="swot-block">
+    <style>
+        :host {
+            width: 100%;
+            font-family: Roboto, sans-serif;
+            font-weight: normal;
+        }
+        .swot-block__title {
+            display: flex;
+            width: 610px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        .title-block /deep/ #input {
+            font-size: 42px;
+            font-weight: bold;
+        }
+        .swot-block__header {
+            display: flex;
+            justify-content: space-between;
+            width: 610px;
+            margin: 0 auto;
+            align-items: center;
+        }
+        .swot-block__container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 610px;
+            margin: 0 auto;
+            align-content: space-between;
+            height: 610px;
+        }
+        .swot-block__swot-box {
+            width: 300px;
+            height: 300px;
+        }
+        .swot-block__input-block {
+            margin: 0 auto;
+            width: 90%;
+            height: 90%;
+        }
+        .strength {
+            background-color: #D2053D;
+        }
+        .weakness {
+            background-color: #FDD212;
+        }
+        .oppportunity {
+            background-color: #EB4007;
+        }
+        .threat {
+            background-color: #875481;
+        }
+        .swot-block__btn_type_save{
+            background-color: #a9a9a9;
+            width: 40px;
+            height: 40px;
+        }
+        .swot-block__btn_type_save:hover {
+            background-color: #4da935;
+        }
+        .swot-block__btn_type_delete {
+            background-color: #a9a9a9;
+            width: 40px;
+            height: 40px;
+        }
+        .swot-block__btn_type_delete:hover {
+            background-color: #dc3436;
+        }
+        .swot-block__controls {
+            display: flex;
+            width: 110px;
+            justify-content: space-between;
+        }
+        .swot-block__input-block__remove {
+            width: 17px;
+            height: 17px;
+            color: #a9a9a9;
+        }
+        .swot-block__input-block__remove:hover {
+            color: #dc3436;
+        }
+        .swot-block__input-block__items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .swot-block__input-block__item_text {
+            width: 80%;
+        }
+    </style>
+    <template>
+        <div class="swot-block__header">
+            <paper-input value="{{title}}" class="swot-block__title title-block" data-type="title"></paper-input>
+            <div class="swot-block__controls">
+                <paper-fab id="swot-save" icon="save" class="swot-diagram__btn swot-block__btn_type_save" on-tap="onSwotSave"></paper-fab>
+                <paper-fab id="swot-delete" icon="delete" class="swot-diagram__btn swot-block__btn_type_delete" on-tap="onSwotSave"></paper-fab>
+            </div>
+        </div>
+        <div class="swot-block__container">
+            <paper-material class="swot-block__swot-box">
+                <paper-header-panel mode="seamed">
+                    <paper-toolbar class="strength">
+                        <h2>Strengths</h2>
+                    </paper-toolbar>
+                    <div class="swot-block__input-block">
+                        <paper-input label="New strength" on-keypress="onSwotItemAdd" data-type="strengths"></paper-input>
+                        <template is="dom-repeat" items="[[strengths]]">
+                            <div class="swot-block__input-block__items">
+                                <div class="swot-block__input-block__item_text">[[item]]</div>
+                                <iron-icon title="strengths" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                            </div>
+                        </template>
+                    </div>
+                </paper-header-panel>
+            </paper-material>
+
+            <paper-material class="swot-block__swot-box">
+                <paper-header-panel mode="seamed">
+                    <paper-toolbar class="weakness">
+                        <h2>Weaknesses</h2>
+                    </paper-toolbar>
+                    <div class="swot-block__input-block">
+                        <paper-input label="New weakness" on-keypress="onSwotItemAdd" data-type="weaknesses"></paper-input>
+                        <template is="dom-repeat" items="[[weaknesses]]">
+                            <div class="swot-block__input-block__items">
+                                <div class="swot-block__input-block__item_text">[[item]]</div>
+                                <iron-icon title="weaknesses" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                            </div>
+                        </template>
+                    </div>
+                </paper-header-panel>
+            </paper-material>
+
+            <paper-material class="swot-block__swot-box">
+                <paper-header-panel mode="seamed">
+                    <paper-toolbar class="oppportunity">
+                        <h2>Opportunities</h2>
+                    </paper-toolbar>
+                    <div class="swot-block__input-block">
+                        <paper-input label="New opportunity" on-keypress="onSwotItemAdd" data-type="opportunities"></paper-input>
+                        <template is="dom-repeat" items="[[opportunities]]">
+                            <div class="swot-block__input-block__items">
+                                <div class="swot-block__input-block__item_text">[[item]]</div>
+                                <iron-icon title="opportunities" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                            </div>
+                        </template>
+                    </div>
+                </paper-header-panel>
+            </paper-material>
+
+            <paper-material class="swot-block__swot-box">
+                <paper-header-panel mode="seamed">
+                    <paper-toolbar class="threat">
+                        <h2>Threats</h2>
+                    </paper-toolbar>
+                    <div class="swot-block__input-block">
+                        <paper-input label="New threat" on-keypress="onSwotItemAdd" data-type="threats"></paper-input>
+                        <template is="dom-repeat" items="[[threats]]">
+                            <div class="swot-block__input-block__items">
+                                <div class="swot-block__input-block__item_text">[[item]]</div>
+                                <iron-icon title="threats" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                            </div>
+                        </template>
+                    </div>
+                </paper-header-panel>
+            </paper-material>
+        </div>
+        <app-ajax id="ajax" url="/swots/"></app-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'swot-block',
+            properties: {
+                id: {
+                    type: Number,
+                    value: 0
+                },
+                title: {
+                    type: String,
+                    value: ''
+                },
+                strengths: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    }
+                },
+                weaknesses: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    }
+                },
+                opportunities: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    }
+                },
+                threats: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    }
+                }
+            },
+            onSwotItemAdd: function(e) {
+                var value, type;
+
+                if (e.keyCode !== 13) {
+                    return;
+                }
+                value = e.currentTarget.value;
+                type = e.currentTarget.dataset.type;
+                this.push(type, value);
+                e.currentTarget.value = '';
+            },
+            onSwotSave: function (e) {
+                var data;
+                var ajax = this.$.ajax;
+                if (e.currentTarget.id === 'swot-save') {
+                    data = {
+                        title: this.title,
+                        strengths: this.strengths,
+                        weaknesses: this.weaknesses,
+                        opportunities: this.opportunities,
+                        threats: this.threats
+                    };
+                    if (!parseInt(this.id)) {
+                        ajax.method = 'POST';
+                        ajax.url = ajax.url + this.id;
+                    }
+                    else {
+                        ajax.method = 'PUT';
+                        ajax.url = ajax.url + this.id;
+                    }
+                    ajax.body = JSON.stringify(data);
+                }
+                else {
+                    ajax.method = 'DELETE';
+                    ajax.url = ajax.url + this.id;
+                }
+                ajax.generateRequest();
+
+                // TODO: no reload, pop or update data
+                // TODO: add paper-toast
+                // TODO: new swot before all
+                // TODO: smart add button position
+
+                window.location = '';
+            },
+            popItem: function(e) {
+                var type = e.target.title;
+                var index = e.target.id;
+                this.splice(type, parseInt(index), 1);
+            }
+        })
+    </script>
+</dom-module>

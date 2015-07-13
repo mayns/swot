@@ -1,0 +1,61 @@
+<link rel="import" href="/static/elements/vendor/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/vendor/paper-fab/paper-fab.html"/>
+<link rel="import" href="/static/elements/vendor/iron-icons/iron-icons.html"/>
+<link rel="import" href="/static/elements/swot-block.html"/>
+<link rel="import" href="/static/elements/app-ajax.html"/>
+
+
+<dom-module id="swot-app">
+    <style>
+        .swot-block__btn_type_add {
+            position: fixed;
+            left: 1000px;
+            bottom: 50px;
+            background-color: #32bfb4;
+        }
+    </style>
+    <template>
+        <template is="dom-repeat" items="[[swots]]">
+            <swot-block id="[[item.id]]"
+                        title="[[item.title]]"
+                        strengths="[[item.strengths]]"
+                        weaknesses="[[item.weaknesses]]"
+                        opportunities="[[item.opportunities]]"
+                        threats="[[item.threats]]">
+            </swot-block>
+        </template>
+        <paper-fab icon="add" class="swot-diagram__btn swot-block__btn_type_add" on-tap="addSwot"></paper-fab>
+        <app-ajax url="/swots/api/" id="ajax" on-response="onSwotsGet" handle-as="json" method="GET"></app-ajax>
+    </template>
+    <script>
+        Polymer({
+            is: 'swot-app',
+            properties: {
+                swots: {
+                    type: Array,
+                    value: function() {
+                        return [];
+                    },
+                    notify: true
+                }
+            },
+            ready: function() {
+                this.$.ajax.generateRequest();
+            },
+            onSwotsGet: function(e, detail, sender) {
+                this.swots = this.$.ajax.lastResponse;
+            },
+            addSwot: function() {
+                this.push('swots', {
+                    id: 0,
+                    title: 'New SWOT',
+                    strengths: [],
+                    weaknesses: [],
+                    opportunities: [],
+                    threats: []
+                });
+
+            }
+        })
+    </script>
+</dom-module>

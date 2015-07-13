@@ -1,0 +1,107 @@
+<link rel="import" href="/static/elements/vendor/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/vendor/iron-ajax/iron-ajax.html"/>
+
+<dom-module id="app-ajax">
+	<template>
+		<iron-ajax
+			id="ajax"
+			url="[[url]]"
+			params="[[params]]"
+			method="[[method]]"
+			content-type="[[contentType]]"
+			body="[[body]]"
+			handle-as="[[handleAs]]"
+			auto="[[auto]]"
+			loading="{{loading}}"
+			last-request="{{lastRequest}}"
+			last-response="{{lastResponse}}"
+			last-error="{{lastError}}"
+			response="{{response}}"
+			active-requests="{{activeRequests}}">
+		</iron-ajax>
+	</template>
+	<script>
+		Polymer({
+			is: 'app-ajax',
+			/**
+			 * Fired when an error is received.
+			 *
+			 * @event error
+			 */
+			properties: {
+				url: {
+					type: String,
+					value: ''
+				},
+				params: {
+					type: Object,
+					value: function () {
+						return {};
+					}
+				},
+				method: {
+					type: String,
+					value: 'GET'
+				},
+				headers: {
+					type: Object,
+					value: function () {
+						return {};
+					}
+				},
+				contentType: {
+					type: String,
+					value: 'application/x-www-form-urlencoded'
+				},
+				body: {
+					type: String,
+					value: ''
+				},
+				handleAs: {
+					type: String,
+					value: 'json'
+				},
+				auto: {
+					type: Boolean,
+					value: false
+				},
+				loading: {
+					type: Boolean,
+					notify: true
+				},
+				lastRequest: {
+					type: Object,
+					notify: true
+				},
+				lastResponse: {
+					type: Object,
+					notify: true
+				},
+				lastError: {
+					type: Object,
+					notify: true
+				},
+				activeRequests: {
+					type: Array,
+					notify: true,
+					value: function () {
+						return [];
+					}
+				}
+			},
+			ready: function () {
+				this.$.ajax.headers = {
+					'X-CSRFToken': this.getCookie('csrftoken'),
+					'X-Requested-With': 'XMLHttpRequest'
+				};
+			},
+            getCookie: function(name) {
+                var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+                return match ? match[1] : match;
+            },
+			generateRequest: function () {
+				this.$.ajax.generateRequest();
+			}
+		});
+	</script>
+</dom-module>

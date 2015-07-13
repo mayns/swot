@@ -1,0 +1,19 @@
+{
+  "name": "static",
+  "version": "0.0.1",
+  "authors": [
+    "mayns <oksgorobets@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.0.6",
+    "paper-material": "PolymerElements/paper-material#~1.0.0",
+    "paper-input": "PolymerElements/paper-input#~1.0.5",
+    "paper-header-panel": "PolymerElements/paper-header-panel#~1.0.2",
+    "paper-toolbar": "PolymerElements/paper-toolbar#~1.0.2",
+    "paper-button": "PolymerElements/paper-button#~1.0.2",
+    "paper-fab": "PolymerElements/paper-fab#~1.0.2",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.0.2",
+    "iron-form": "PolymerElements/iron-form#~1.0.5"
+  }
+}

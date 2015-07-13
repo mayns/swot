@@ -1,0 +1,6 @@
+{
+  "cwd": "./",
+  "directory": "./elements/vendor",
+  "analytics": true,
+  "timeout": 120000
+}
