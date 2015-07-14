@@ -175,22 +175,23 @@
                         <template is="dom-repeat" items="[[threats]]">
                             <div class="swot-block__input-block__items">
                                 <div class="swot-block__input-block__item_text">[[item]]</div>
-                                <iron-icon title="threats" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                                <iron-icon title="threats" id="{{index}}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
                             </div>
                         </template>
                     </div>
                 </paper-header-panel>
             </paper-material>
         </div>
-        <app-ajax id="ajax" url="/swots/"></app-ajax>
+        <app-ajax id="postAjax" url="/swots/0" on-response="onSwotSuccess"></app-ajax>
+        <app-ajax id="deleteAjax" url="/swots/"></app-ajax>
+        <app-ajax id="putAjax" url="/swots/"></app-ajax>
     </template>
     <script>
         Polymer({
             is: 'swot-block',
             properties: {
                 id: {
-                    type: Number,
-                    value: 0
+                    type: Number
                 },
                 title: {
                     type: String,
@@ -233,38 +234,35 @@
                 e.currentTarget.value = '';
             },
             onSwotSave: function (e) {
-                var data;
-                var ajax = this.$.ajax;
-                if (e.currentTarget.id === 'swot-save') {
-                    data = {
-                        title: this.title,
-                        strengths: this.strengths,
-                        weaknesses: this.weaknesses,
-                        opportunities: this.opportunities,
-                        threats: this.threats
-                    };
-                    if (!parseInt(this.id)) {
-                        ajax.method = 'POST';
-                        ajax.url = ajax.url + this.id;
-                    }
-                    else {
-                        ajax.method = 'PUT';
-                        ajax.url = ajax.url + this.id;
-                    }
-                    ajax.body = JSON.stringify(data);
+                var ajax;
+                var data= {
+                    title: this.title,
+                    strengths: this.strengths,
+                    weaknesses: this.weaknesses,
+                    opportunities: this.opportunities,
+                    threats: this.threats
+                };
+                if (!parseInt(this.id)) {
+                    ajax = this.$.postAjax;
+                    ajax.method = 'POST';
+                    ajax.url =  '/swots/0';
                 }
                 else {
-                    ajax.method = 'DELETE';
-                    ajax.url = ajax.url + this.id;
+                    ajax = this.$.putAjax;
+                    ajax.method = 'PUT';
+                    ajax.url = '/swots/' + this.id;
                 }
+                ajax.body = JSON.stringify(data);
                 ajax.generateRequest();
 
                 // TODO: no reload, pop or update data
                 // TODO: add paper-toast
                 // TODO: new swot before all
                 // TODO: smart add button position
-
-                window.location = '';
+            },
+            onSwotSuccess: function() {
+                // TODO add id to swot block
+                this.fire('swot-block-create');
             },
             popItem: function(e) {
                 var type = e.target.title;
