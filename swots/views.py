@@ -27,25 +27,27 @@ def get_data(request):
 
 def modify(request, swot_id=None):
 
-    if request.method.upper() == 'POST':
-        print('CREATING')
-        create_swot(json.loads(request.body))
-
     if request.method.upper() == 'DELETE' and swot_id:
         print('DELETING', swot_id)
         delete_swot(swot_id)
+        return HttpResponse(json.dumps(dict(status='success')))
+
+    if request.method.upper() == 'POST':
+        print('CREATING')
+        swot_id = create_swot(json.loads(request.body))
 
     if request.method.upper() in ['PUT', 'PATCH'] and swot_id:
         print('UPDATING', swot_id)
         modify_swot(json.loads(request.body), swot_id)
 
-    return HttpResponse('success')
+    return HttpResponse(json.dumps(dict(id=swot_id, status='success')))
 
 
 def create_swot(new_swot):
     print(new_swot)
     diagram = Diagram(**new_swot)
     diagram.save()
+    return diagram.id
 
 
 def modify_swot(swot_data, swot_id):

@@ -8,6 +8,9 @@
 
 <dom-module id="swot-app">
     <style>
+        :host {
+            font-family: Roboto, sans-serif;
+        }
         .swot-block__btn_type_add {
             position: fixed;
             left: 1000px;
@@ -42,7 +45,9 @@
                 }
             },
             listeners: {
-                'swot-block-create': 'onSwotBlockSave'
+                'swot-block-save': 'onSwotBlockSave',
+                'swot-block-delete': 'onSwotDelete',
+                'swot-block-error': 'onSwotError'
             },
             ready: function() {
                 this.$.ajax.generateRequest();
@@ -51,7 +56,7 @@
                 this.swots = this.$.ajax.lastResponse;
             },
             addSwot: function() {
-                this.push('swots', {
+                this.unshift('swots', {
                     id: 0,
                     title: 'New SWOT',
                     strengths: [],
@@ -63,6 +68,23 @@
             onSwotBlockSave: function() {
                 var toast = this.$.toast;
                 toast.text = 'Swot saved!';
+                toast.show();
+            },
+            onSwotError: function() {
+                var toast = this.$.toast;
+                toast.text = 'SHIT!';
+                toast.show();
+            },
+            onSwotDelete: function(r) {
+                var i;
+                var toast = this.$.toast;
+                for (i=0; i < this.swots.length; i++) {
+                    if (this.swots[i].id == parseInt(r.srcElement.id)) {
+                        break;
+                    }
+                }
+                this.splice('swots', i, 1);
+                toast.text = 'Swot deleted!';
                 toast.show();
             }
         })

@@ -109,8 +109,8 @@
         <div class="swot-block__header">
             <paper-input value="{{title}}" class="swot-block__title title-block" data-type="title"></paper-input>
             <div class="swot-block__controls">
-                <paper-fab id="swot-save" icon="save" class="swot-diagram__btn swot-block__btn_type_save" on-tap="onSwotSave"></paper-fab>
-                <paper-fab id="swot-delete" icon="delete" class="swot-diagram__btn swot-block__btn_type_delete" on-tap="onSwotSave"></paper-fab>
+                <paper-fab id="swot-save" icon="save" class="swot-diagram__btn swot-block__btn_type_save" on-tap="swotSave"></paper-fab>
+                <paper-fab id="swot-delete" icon="delete" class="swot-diagram__btn swot-block__btn_type_delete" on-tap="swotDelete"></paper-fab>
             </div>
         </div>
         <div class="swot-block__container">
@@ -175,16 +175,16 @@
                         <template is="dom-repeat" items="[[threats]]">
                             <div class="swot-block__input-block__items">
                                 <div class="swot-block__input-block__item_text">[[item]]</div>
-                                <iron-icon title="threats" id="{{index}}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                                <iron-icon title="threats" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
                             </div>
                         </template>
                     </div>
                 </paper-header-panel>
             </paper-material>
         </div>
-        <app-ajax id="postAjax" url="/swots/0" on-response="onSwotSuccess"></app-ajax>
-        <app-ajax id="deleteAjax" url="/swots/"></app-ajax>
-        <app-ajax id="putAjax" url="/swots/"></app-ajax>
+        <app-ajax id="postAjax" url="/swots/0" method="POST" on-response="onSaveSuccess"></app-ajax>
+        <app-ajax id="putAjax" url="/swots/" method="PUT" on-response="onSaveSuccess"></app-ajax>
+        <app-ajax id="deleteAjax" url="/swots/" method="DELETE" on-response="onDeleteSuccess"></app-ajax>
     </template>
     <script>
         Polymer({
@@ -233,7 +233,7 @@
                 this.push(type, value);
                 e.currentTarget.value = '';
             },
-            onSwotSave: function (e) {
+            swotSave: function (e) {
                 var ajax;
                 var data= {
                     title: this.title,
@@ -244,25 +244,38 @@
                 };
                 if (!parseInt(this.id)) {
                     ajax = this.$.postAjax;
-                    ajax.method = 'POST';
-                    ajax.url =  '/swots/0';
                 }
                 else {
                     ajax = this.$.putAjax;
-                    ajax.method = 'PUT';
-                    ajax.url = '/swots/' + this.id;
+                    ajax.url += this.id;
                 }
                 ajax.body = JSON.stringify(data);
                 ajax.generateRequest();
 
-                // TODO: no reload, pop or update data
-                // TODO: add paper-toast
-                // TODO: new swot before all
                 // TODO: smart add button position
             },
-            onSwotSuccess: function() {
-                // TODO add id to swot block
-                this.fire('swot-block-create');
+            swotDelete: function(e) {
+                var ajax = this.$.deleteAjax;
+                ajax.url += this.id;
+                ajax.generateRequest();
+            },
+            onSaveSuccess: function(data) {
+                if (data.detail.response.status === 'success') {
+                    this.id = data.detail.response.id;
+                    this.fire('swot-block-save');
+                }
+                else {
+                    this.fire('swot-block-error');
+                }
+            },
+            onDeleteSuccess: function(data) {
+                console.log(data.detail.response);
+                if (data.detail.response.status === 'success') {
+                    this.fire('swot-block-delete');
+                }
+                else {
+                    this.fire('swot-block-error');
+                }
             },
             popItem: function(e) {
                 var type = e.target.title;
