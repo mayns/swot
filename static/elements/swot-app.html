@@ -19,13 +19,13 @@
         }
     </style>
     <template>
-        <template is="dom-repeat" items="[[swots]]">
-            <swot-block id="[[item.id]]"
-                        title="[[item.title]]"
-                        strengths="[[item.strengths]]"
-                        weaknesses="[[item.weaknesses]]"
-                        opportunities="[[item.opportunities]]"
-                        threats="[[item.threats]]">
+        <template is="dom-repeat" items="{{swots}}">
+            <swot-block id="{{item.id}}"
+                        title="{{item.title}}"
+                        strengths="{{item.strengths}}"
+                        weaknesses="{{item.weaknesses}}"
+                        opportunities="{{item.opportunities}}"
+                        threats="{{item.threats}}">
             </swot-block>
         </template>
         <paper-fab icon="add" class="swot-diagram__btn swot-block__btn_type_add" on-tap="addSwot"></paper-fab>
@@ -78,6 +78,7 @@
             onSwotDelete: function(r) {
                 var i;
                 var toast = this.$.toast;
+
                 for (i=0; i < this.swots.length; i++) {
                     if (this.swots[i].id == parseInt(r.srcElement.id)) {
                         break;
