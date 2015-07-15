@@ -91,7 +91,7 @@
 			},
 			ready: function () {
 				this.$.ajax.headers = {
-					'X-CSRFToken': this.getCookie('csrftoken'),
+					'X-CSRFToken': this.getCookie('csrftoken') || '',
 					'X-Requested-With': 'XMLHttpRequest'
 				};
 			},

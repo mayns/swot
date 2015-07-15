@@ -10,12 +10,18 @@
     <style>
         :host {
             font-family: Roboto, sans-serif;
+            display: block;
         }
-        .swot-block__btn_type_add {
+        .swot-app__add-btn {
             position: fixed;
-            left: 1000px;
+            left: 50%;
             bottom: 50px;
             background-color: #32bfb4;
+        }
+        @media (min-width: 768px) {
+            .swot-app__add-btn {
+                margin-left: 320px;
+            }
         }
     </style>
     <template>
@@ -28,7 +34,7 @@
                         threats="{{item.threats}}">
             </swot-block>
         </template>
-        <paper-fab icon="add" class="swot-diagram__btn swot-block__btn_type_add" on-tap="addSwot"></paper-fab>
+        <paper-fab icon="add" class="swot-app__add-btn" on-tap="addSwot"></paper-fab>
         <app-ajax url="/swots/api/" id="ajax" on-response="onSwotsGet" handle-as="json" method="GET"></app-ajax>
         <paper-toast id="toast" duration="3000"></paper-toast>
     </template>

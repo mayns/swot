@@ -109,6 +109,8 @@ USE_TZ = False
 STATIC_URL = os.path.join(os.getcwd(), 'static/')
 STATIC_PREFIX = 'static/'
 
+print(STATIC_URL)
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
 )
