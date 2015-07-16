@@ -27,6 +27,7 @@
             max-width: 610px;
             margin: 0 auto;
             align-items: center;
+            margin-top: 20px;
         }
 
         .swot-block__container {
@@ -43,6 +44,13 @@
             max-width: 610px;
             margin: 0 auto;
             cursor: pointer;
+            width: 100%
+        }
+        .swot-block__title /deep/ .underline .unfocused-line{
+            height: 0
+        }
+        .swot-block__title /deep/ .floated-label-placeholder{
+            display: none;
         }
         .title-block /deep/ #input {
             font-size: 42px;
@@ -71,24 +79,24 @@
             background-color: #875481;
         }
         .swot-block__btn_type_save{
-            background-color: #a9a9a9;
-            width: 40px;
-            height: 40px;
+            color: #a9a9a9;
+            width: 30px;
+            height: 30px;
         }
         .swot-block__btn_type_save:hover {
-            background-color: #4da935;
+            color: #4da935;
         }
         .swot-block__btn_type_delete {
-            background-color: #a9a9a9;
-            width: 40px;
-            height: 40px;
+            color: #a9a9a9;
+            width: 30px;
+            height: 30px;
         }
         .swot-block__btn_type_delete:hover {
-            background-color: #dc3436;
+            color: #dc3436;
         }
         .swot-block__controls {
             display: flex;
-            width: 110px;
+            width: 90px;
             justify-content: space-between;
         }
         .swot-block__input-block__remove {
@@ -113,8 +121,8 @@
         <div class="swot-block__header">
             <paper-input value="{{title}}" class="swot-block__title title-block" data-type="title"></paper-input>
             <div class="swot-block__controls">
-                <paper-fab id="swot-save" icon="save" class="swot-diagram__btn swot-block__btn_type_save" on-tap="swotSave"></paper-fab>
-                <paper-fab id="swot-delete" icon="delete" class="swot-diagram__btn swot-block__btn_type_delete" on-tap="swotDelete"></paper-fab>
+                <iron-icon id="swot-save" icon="save" class="swot-diagram__btn swot-block__btn_type_save" on-tap="swotSave"></iron-icon>
+                <iron-icon id="swot-delete" icon="delete" class="swot-diagram__btn swot-block__btn_type_delete" on-tap="swotDelete"></iron-icon>
             </div>
         </div>
         <div class="swot-block__container">
