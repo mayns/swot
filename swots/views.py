@@ -1,10 +1,12 @@
-from django.shortcuts import render, render_to_response, redirect, resolve_url
+from django.shortcuts import render
 from django.http import HttpResponse
 import simplejson as json
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .models import Diagram
 
 
+@ensure_csrf_cookie
 def index(request):
     return render(request, 'swots/index.html')
 
