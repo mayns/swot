@@ -24,7 +24,7 @@ vulcan.process(target, function(err, inlinedHtml) {
 		  	removeAttributeQuotes: true
 		});
 
-		fs.writeFile('build.html', result, function (err) {
+		fs.writeFile('templates/swots/index.html', result, function (err) {
 		  	if (err) {
 				console.log(err);
 			}
