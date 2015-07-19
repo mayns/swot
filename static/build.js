@@ -2,7 +2,7 @@ var Vulcanize = require('vulcanize');
 var minify = require('html-minifier').minify;
 var fs = require('fs');
 var zlib = require('zlib');
-var target = '/static/elements/swot-app.html';
+var target = '/static/templates_dev/swots/index.html';
 
 var vulcan = new Vulcanize({
   abspath: '../',
