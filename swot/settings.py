@@ -53,10 +53,21 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'swot.urls'
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+STATIC_URL = os.path.join(os.getcwd(), 'static/')
+STATIC_PREFIX = 'static/'
+TEMPLATE_DIR = os.path.join(STATIC_URL,  'templates')
+
+TEMPLATE_DIRS = (
+    TEMPLATE_DIR,
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,16 +112,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_URL = os.path.join(os.getcwd(), 'static/')
-STATIC_PREFIX = 'static/'
-
-print(STATIC_URL)
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
-)
