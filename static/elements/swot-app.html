@@ -58,7 +58,7 @@
             ready: function() {
                 this.$.ajax.generateRequest();
             },
-            onSwotsGet: function(e, detail, sender) {
+            onSwotsGet: function() {
                 this.swots = this.$.ajax.lastResponse;
             },
             addSwot: function() {
@@ -73,20 +73,22 @@
             },
             onSwotBlockSave: function() {
                 var toast = this.$.toast;
+
                 toast.text = 'Swot saved!';
                 toast.show();
             },
-            onSwotError: function() {
+            onSwotError: function(e, err) {
                 var toast = this.$.toast;
-                toast.text = 'SHIT!';
+
+                toast.text = err;
                 toast.show();
             },
-            onSwotDelete: function(r) {
+            onSwotDelete: function(e, id, sender) {
                 var i;
                 var toast = this.$.toast;
 
-                for (i=0; i < this.swots.length; i++) {
-                    if (this.swots[i].id == parseInt(r.srcElement.id)) {
+                for (i = 0; i < this.swots.length; i++) {
+                    if (this.swots[i].id === id) {
                         break;
                     }
                 }
