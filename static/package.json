@@ -1,4 +1,8 @@
 {
   "name": "application-name",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "devDependencies": {
+    "html-minifier": "^0.7.2",
+    "vulcanize": "^1.10.1"
+  }
 }
