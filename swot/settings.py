@@ -12,6 +12,20 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import socket
+
+current_ip = socket.gethostbyname(socket.gethostname())
+
+PROD_IPS = [
+    '78.47.222.158'
+]
+
+ON_PRODUCTION = False
+
+if current_ip in PROD_IPS:
+    ON_PRODUCTION = True
+
+print(ON_PRODUCTION, current_ip)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,7 +37,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'rc%5yu^o(=_t^amixu5n-q5z4wb02!90amj^ww*l#r6yw8l2(d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+if not ON_PRODUCTION:
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -58,7 +75,11 @@ ROOT_URLCONF = 'swot.urls'
 
 STATIC_URL = os.path.join(os.getcwd(), 'static/')
 STATIC_PREFIX = 'static/'
+
 TEMPLATE_DIR = os.path.join(STATIC_URL,  'templates')
+
+if not ON_PRODUCTION:
+    TEMPLATE_DIR = os.path.join(STATIC_URL,  'templates_dev')
 
 TEMPLATE_DIRS = (
     TEMPLATE_DIR,
