@@ -13,7 +13,18 @@ vulcan.process(target, function(err, inlinedHtml) {
 		console.log(err);
 	}
 	else {
-		fs.writeFile('build.html', inlinedHtml, function (err) {
+		var result = minify(inlinedHtml, {
+			minifyJS: true,
+			customAttrAssign: [/\$=/],
+			keepClosingSlash: true,
+			removeComments: true,
+			collapseWhitespace: true,
+			removeStyleLinkTypeAttributes: true,
+			removeScriptTypeAttributes: true,
+		  	removeAttributeQuotes: true
+		});
+
+		fs.writeFile('build.html', result, function (err) {
 		  	if (err) {
 				console.log(err);
 			}
