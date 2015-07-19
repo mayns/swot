@@ -25,8 +25,6 @@ ON_PRODUCTION = False
 if current_ip in PROD_IPS:
     ON_PRODUCTION = True
 
-print(ON_PRODUCTION, current_ip)
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -40,7 +38,7 @@ SECRET_KEY = 'rc%5yu^o(=_t^amixu5n-q5z4wb02!90amj^ww*l#r6yw8l2(d'
 DEBUG = True
 
 if not ON_PRODUCTION:
-    DEBUG = True
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
