@@ -1,6 +1,7 @@
 var Vulcanize = require('vulcanize');
 var minify = require('html-minifier').minify;
 var fs = require('fs');
+var zlib = require('zlib');
 var target = '/static/elements/swot-app.html';
 
 var vulcan = new Vulcanize({
@@ -24,7 +25,9 @@ vulcan.process(target, function(err, inlinedHtml) {
 		  	removeAttributeQuotes: true
 		});
 
-		fs.writeFile('templates/swots/index.html', result, function (err) {
+		var gzipped = zlib.gzipSync(result);
+
+		fs.writeFile('templates/swots/index.html.gz', gzipped, function (err) {
 		  	if (err) {
 				console.log(err);
 			}

@@ -136,7 +136,7 @@
                         <template is="dom-repeat" items="[[strengths]]">
                             <div class="swot-block__input-block__items">
                                 <div class="swot-block__input-block__item_text">[[item]]</div>
-                                <iron-icon title="strengths" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                                <iron-icon title="strengths" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="deleteSwotItem"></iron-icon>
                             </div>
                         </template>
                     </div>
@@ -153,7 +153,7 @@
                         <template is="dom-repeat" items="[[weaknesses]]">
                             <div class="swot-block__input-block__items">
                                 <div class="swot-block__input-block__item_text">[[item]]</div>
-                                <iron-icon title="weaknesses" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                                <iron-icon title="weaknesses" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="deleteSwotItem"></iron-icon>
                             </div>
                         </template>
                     </div>
@@ -170,7 +170,7 @@
                         <template is="dom-repeat" items="[[opportunities]]">
                             <div class="swot-block__input-block__items">
                                 <div class="swot-block__input-block__item_text">[[item]]</div>
-                                <iron-icon title="opportunities" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="popItem"></iron-icon>
+                                <iron-icon title="opportunities" id="{{ index }}" class="swot-block__input-block__remove" icon="remove-circle" on-tap="deleteSwotItem"></iron-icon>
                             </div>
                         </template>
                     </div>
