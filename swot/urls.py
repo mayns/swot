@@ -21,4 +21,4 @@ from swot import settings
 urlpatterns = [
     url(r'^swots/', include('swots.urls')),
     url(r'^admin/', include(admin.site.urls)),
-] + static(settings.STATIC_PREFIX, document_root=settings.STATIC_URL)
+]
