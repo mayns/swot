@@ -8,3 +8,9 @@ SWOT is abbreviation for strengths, weaknesses, opportunities and threats;
 * Threats: elements in the environment that could cause trouble for the business or project.
 
 SWOT app uses Polymer library for frontend and Django for backend.
+
+# Road Map
+https://trello.com/b/rPzOztOK/you-need-a-swot
+
+# Working developers version
+http://78.47.222.158:8000/
