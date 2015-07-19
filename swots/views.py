@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpResponse
 import simplejson as json
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -7,10 +7,6 @@ from .models import Diagram
 
 
 @ensure_csrf_cookie
-def index(request):
-    return render(request, 'swots/index.html')
-
-
 def get_data(request):
     responses = Diagram.objects.order_by('-pub_date')
     responses = responses or [Diagram()]
@@ -26,8 +22,11 @@ def get_data(request):
         ))
     return HttpResponse(json.dumps(response_onj))
 
-
+@ensure_csrf_cookie
 def modify(request, swot_id=None):
+    if request.method.upper() == 'GET':
+        print('GET')
+        return redirect('/')
 
     if request.method.upper() == 'DELETE' and swot_id:
         print('DELETING', swot_id)
