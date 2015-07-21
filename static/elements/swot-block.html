@@ -194,9 +194,9 @@
                 </paper-header-panel>
             </paper-material>
         </div>
-        <app-ajax id="postAjax" url="/swots/0" method="POST" on-response="onSaveSuccess"></app-ajax>
-        <app-ajax id="putAjax" url="/swots/" method="PUT" on-response="onSaveSuccess"></app-ajax>
-        <app-ajax id="deleteAjax" url="/swots/" method="DELETE" on-response="onDeleteSuccess"></app-ajax>
+        <app-ajax id="postAjax" url="/swots/0" method="POST" on-response="onSaveSuccess" on-error="onResponseError"></app-ajax>
+        <app-ajax id="putAjax" method="PUT" on-response="onSaveSuccess" on-error="onResponseError"></app-ajax>
+        <app-ajax id="deleteAjax" method="DELETE" on-response="onDeleteSuccess" on-error="onResponseError"></app-ajax>
     </template>
     <script>
         Polymer({
@@ -259,7 +259,7 @@
                 }
                 else {
                     ajax = this.$.putAjax;
-                    ajax.url += this.id;
+                    ajax.url = '/swots/' + this.id;
                 }
                 ajax.body = JSON.stringify(data);
                 ajax.generateRequest();
@@ -272,26 +272,21 @@
                 }
                 else {
                     ajax = this.$.deleteAjax;
-                    ajax.url += this.id;
+                    ajax.url = '/swots/' + this.id;
                     ajax.generateRequest();
                 }
             },
             onSaveSuccess: function(e, detail) {
-                if (detail.response.status === 'success') {
-                    this.id = detail.response.id;
-                    this.fire('swot-block-save');
+                if (detail.response.id) {
+                    this.id = parseInt(detail.response.id, 10);
                 }
-                else {
-                    this.fire('swot-block-error', 'An error occured while deleting');
-                }
+                this.fire('swot-block-save');
             },
-            onDeleteSuccess: function(data) {
-                if (data.detail.response.status === 'success') {
-                    this.fire('swot-block-delete', this.id);
-                }
-                else {
-                    this.fire('swot-block-error', 'An error occured while deleting');
-                }
+            onDeleteSuccess: function() {
+                this.fire('swot-block-delete', this.id);
+            },
+            onResponseError: function(e) {
+                this.fire('swot-block-error', e.detail.error.message);
             },
             deleteSwotItem: function(e) {
                 var type = e.target.title;
