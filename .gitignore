@@ -58,4 +58,7 @@ docs/_build/
 target/
 .idea/
 
+# node_modules
+static/node_modules/
+
 
