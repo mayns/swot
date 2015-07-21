@@ -116,6 +116,15 @@
         .swot-block__input-block__item_text {
             width: 80%;
         }
+        @media (max-width: 360px) {
+            .swot-block__header,
+            .swot-block__container {
+                max-width: 300px;
+            }
+            .swot-block__swot-box {
+                margin-bottom: 20px;
+            }
+        }
     </style>
     <template>
         <div class="swot-block__header">
@@ -285,7 +294,8 @@
             onDeleteSuccess: function() {
                 this.fire('swot-block-delete', this.id);
             },
-            onResponseError: function(e) {
+            onResponseError: function(e, s) {
+                console.log(e, s);
                 this.fire('swot-block-error', e.detail.error.message);
             },
             deleteSwotItem: function(e) {
