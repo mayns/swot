@@ -12,5 +12,5 @@ SWOT app uses Polymer library for frontend and Django for backend.
 # Road Map
 https://trello.com/b/rPzOztOK/you-need-a-swot
 
-# Working developers version
+# No more working developers version
 http://78.47.222.158/
